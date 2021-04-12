@@ -1,25 +1,38 @@
-import logo from '../logo.svg';
-import './App.css';
+import React, {useState, forwardRef, Component, createRef} from 'react'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Editing <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function useIncrement(init, step) {
+  const [state, setState] = useState(init)
+  const increment = function () {
+    setState(state+step)
+  }
+  return [state, increment]
 }
 
-export default App;
+const Incrementer = forwardRef(function (props, ref) {
+  const [count, increment] = useIncrement(props.initial, props.step)
+  const [count2, increment2] = useIncrement(props.initial, 1)
+
+  return <>
+    <button ref={ref} onClick={increment}>
+      {props.children} {count}
+    </button>
+    <button onClick={increment2}>Default step {count2}</button>
+  </>
+})
+
+export default class App extends Component{
+
+  constructor(props) {
+    super(props)
+    this.inc = createRef()
+  }
+
+  render() {
+    return <div>
+      Hello World
+      <Incrementer initial={0} step={5} ref={this.inc}>Marnel</Incrementer>
+    </div>
+  }
+
+}
