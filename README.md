@@ -79,6 +79,10 @@ const age = React.useRef(15)
 Unless the value of *age* is changed, it will remain **15**.
 
 
+## useLayoutEffect
+Work as the **useEffect**. However, the **useEffect** is **async** while the **useLayoutEffect** is **sync**.\
+Base on that, we use **useLayoutEffect** when our treatment should modify the user's interface. Otherwise, we simply use a **useEffect** for loading data for example. Here, we can show a loader while our data are been loaded.
+
 
 
 
