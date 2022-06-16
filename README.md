@@ -53,7 +53,30 @@ If our function should be regenerated accorded to and state variable, it should 
 **useCallback** has the same usage the usage but allow us to memorize a whole function (our handler). Without **useCallback**, it's like we're defining our functions directly in our component's attribute: very bad in case our component are pure ones. 
 
 
+## useRef
+Allow us to create reference to our uncontrolled filed by React.
+**E.g.:**
+<pre>
+function InputShow() {
+  const inputRef = React.useRef()
 
+  const handleClick = (e) => {
+    e.preventDefault()
+    alert(inputRef.current.value)
+  }
+
+  return <div>
+    <input type="text" ref={inputRef}>
+    <button onClick={handleClick}>Show</button>
+  </div>
+}
+</pre>
+We can also use **useRef** to memorize a certain value or object that will remain through our component life cycle.
+**E.g.:**
+<pre>
+const age = React.useRef(15)
+</pre>
+Unless the value of *age* is changed, it will remain **15**.
 
 
 
