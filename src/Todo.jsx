@@ -37,35 +37,53 @@ function useIncrement(initial, step) {
   return [count, increment]
 }
 
-function Todo () {
-  const [tasks, addTask] = useState([<p>No task found for the moment</p>])
-  const [firstTask, changeFirstTask] = useState(true)
-  const inputNewTask = useRef()
-  const [title, setTitle] = useState('Empty Todo List')
-  const [count, countIncrementor] = useIncrement(0, 1)
+function useFetch(url) {
+  const [state, setState] = useState({
+    items: [],
+    loading: true
+  })
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(url)
+      const data = await res.json()
+      if(res.ok) {
+        setState({
+          items: data,
+          loading: false
+        })
+      } else {
+        setState(state => ({...state, loading: false}))
+      }
+    })()
+  }, [])
 
-  useEffect(function() {
-    document.title = title
-  }, [title])
+  return [state.loading, state.items, setState]
+}
+
+function Todo () {
+  const inputNewTask = useRef()
+  const [loading, tasks, setState] = useFetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
+
 
   const handleTaskAdded = (e) => {
     e.preventDefault()
     const newTask = inputNewTask.current.value
-    if(firstTask) {
-      changeFirstTask(false)
-      addTask([<Task key={count} name={newTask} />])
-    } else{
-      setTitle('Todo List')
-      addTask(tasks => [...tasks, <Task key={count} name={newTask} />])
-    }
-    countIncrementor()
+    setState(state => {
+      return {
+        ...state,
+        items: [...state.items, {id: (new Date()).getMilliseconds(), title: newTask}]
+      }
+    })
     inputNewTask.current.value = ''
   }
 
+  if(loading) {
+    return <div>Chargement...</div>
+  }
   return <section style={{ margin: '5px' }}>
     <h4>Todo list</h4>
     <div style={{ border: '1px solid #ccc', minHeight: '20px' }}>
-      {tasks}
+      {tasks.map(task => <Task key={'task' + task.id} name={task.title} />)}
     </div>
     <TaskAdder ref={inputNewTask} onTaskAdded={handleTaskAdded} />
   </section>

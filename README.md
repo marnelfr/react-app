@@ -33,8 +33,46 @@ The callback should if needed return a function that will be executed on the `co
 
 **useEffet** can be used as much as we need in our component.
 
+
+## useMemo & useCallback
+**useMemo** is used as **useEffect** and allow use to memorize the result of the execution of a function.\
+This is very useful if we have in our component, a function that return a result use in our virtual DOM.\
+For example, we have a function which return accorded to the age of the user, an fa-icon to show. This actually need to be executed only once, when the user get connected. But without using **useMemo**, the appropriate fa-icon will be determinated every time our component will be re-rended even if the user's age doesn't change.
+**Usage:**
+<pre>
+const faIcon = React.useMemo(function() {
+  if(age < 18) {
+    return 'fa-user'
+  } else {
+    return 'fa-users'
+  }
+}, [])
+</pre>
+If our function should be regenerated accorded to and state variable, it should be the second argument.
+
+**useCallback** has the same usage the usage but allow us to memorize a whole function (our handler). Without **useCallback**, it's like we're defining our functions directly in our component's attribute: very bad in case our component are pure ones. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Create a hook
 It's possible to create our own hooks using the predefined ones.\
+They name should start by **use** and the can employ other state. However, hooks can't be call in callback. 
 **E.g.**:
 <pre>
   function useInccrement(intialValue, step) {
@@ -43,7 +81,6 @@ It's possible to create our own hooks using the predefined ones.\
     return [state, increment]
   }
 </pre>
-
 
 
 

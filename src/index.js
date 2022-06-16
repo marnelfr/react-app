@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Todo } from './Todo'
 import reportWebVitals from './reportWebVitals';
-import { Compteur } from './Compteur';
+import { PostTable } from './PostTable';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Todo />
-    <Compteur order="ASC" />
-    <Compteur order="DESC" />
+    <PostTable />
   </React.StrictMode>
 );
 
