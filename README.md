@@ -48,7 +48,7 @@ const faIcon = React.useMemo(function() {
   }
 }, [])
 ````
-If our function should be regenerated accorded to and state variable, it should be the second argument.
+If our function should be regenerated accorded to a state variable, it should be the second argument **and it should never be muted. I mean always create a new element from a previous state that is observed by useMemo**
 
 **useCallback** has the same usage the usage but allow us to memorize a whole function (our handler). Without **useCallback**, it's like we're defining our functions directly in our component's attribute: very bad in case our component are pure ones. 
 
