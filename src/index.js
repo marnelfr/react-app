@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Calculator } from './Calculator';
 import './index.css';
+import Reducing from './Reducing';
 // import { Todo } from './Todo'
 import reportWebVitals from './reportWebVitals';
 // import { PostTable } from './PostTable';
@@ -11,6 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Calculator />
+    <Reducing />
   </React.StrictMode>
 );
 

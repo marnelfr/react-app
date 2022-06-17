@@ -83,7 +83,18 @@ Unless the value of *age* is changed, it will remain **15**.
 Work as the **useEffect**. However, the **useEffect** is **async** while the **useLayoutEffect** is **sync**.\
 Base on that, we use **useLayoutEffect** when our treatment should modify the user's interface. Otherwise, we simply use a **useEffect** for loading data for example. Here, we can show a loader while our data are been loaded.
 
+## useReducer
+**useReducer** give us more possibility than **useState**.
+It receive:
+  - a **reducer** that give use more possibility that **setState**, it's a function that receive to parameters:
+    - the **state**: the current state
+    - the **action**: can be of any type, is used to determine what to do to the state
+  - the **initial value of the state**: can be of any type
+  - an **initializer**: a function that receive a variable of the same type than the initial value of the state and can modify it to return the **initial state**.
 
+The **useReducer** hook return an array of length 2:
+  - the current state variable
+  - a **dispatcher** that can be called with a given **action**. It will then make treatment using the **reducer** to return the new state. 
 
 
 
