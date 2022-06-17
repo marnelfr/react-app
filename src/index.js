@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Calculator } from './Calculator';
 import './index.css';
-import { Todo } from './Todo'
+// import { Todo } from './Todo'
 import reportWebVitals from './reportWebVitals';
-import { PostTable } from './PostTable';
+// import { PostTable } from './PostTable';
+// import { Binding, Form } from './Binding';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Todo />
-    <PostTable />
+    <Calculator />
   </React.StrictMode>
 );
 
