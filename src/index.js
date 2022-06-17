@@ -5,14 +5,14 @@ import './index.css';
 import Reducing from './Reducing';
 // import { Todo } from './Todo'
 import reportWebVitals from './reportWebVitals';
+import TodoList from './TodoList/TodoList';
 // import { PostTable } from './PostTable';
 // import { Binding, Form } from './Binding';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Calculator />
-    <Reducing />
+    <TodoList />
   </React.StrictMode>
 );
 

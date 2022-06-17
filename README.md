@@ -14,10 +14,10 @@ It takes an initial value and returns an array of two elements:
 - **the state setter**: a function that can be used to change the value of the state.
 
 **E.g.**:
-<pre>
+````javascript
   const [state, setState] = useState(initialValue)
   const handler = () => setState(s => s+1)
-</pre>
+````
 
 \
 **useState** can be used as much as we need states in our component but not in if-conditions and iterations.
@@ -39,7 +39,7 @@ The callback should if needed return a function that will be executed on the `co
 This is very useful if we have in our component, a function that return a result use in our virtual DOM.\
 For example, we have a function which return accorded to the age of the user, an fa-icon to show. This actually need to be executed only once, when the user get connected. But without using **useMemo**, the appropriate fa-icon will be determinated every time our component will be re-rended even if the user's age doesn't change.
 **Usage:**
-<pre>
+````javascript
 const faIcon = React.useMemo(function() {
   if(age < 18) {
     return 'fa-user'
@@ -47,7 +47,7 @@ const faIcon = React.useMemo(function() {
     return 'fa-users'
   }
 }, [])
-</pre>
+````
 If our function should be regenerated accorded to and state variable, it should be the second argument.
 
 **useCallback** has the same usage the usage but allow us to memorize a whole function (our handler). Without **useCallback**, it's like we're defining our functions directly in our component's attribute: very bad in case our component are pure ones. 
@@ -56,7 +56,7 @@ If our function should be regenerated accorded to and state variable, it should 
 ## useRef
 Allow us to create reference to our uncontrolled filed by React.
 **E.g.:**
-<pre>
+````javascript
 function InputShow() {
   const inputRef = React.useRef()
 
@@ -70,12 +70,12 @@ function InputShow() {
     <button onClick={handleClick}>Show</button>
   </div>
 }
-</pre>
+````
 We can also use **useRef** to memorize a certain value or object that will remain through our component life cycle.
 **E.g.:**
-<pre>
+````javascript
 const age = React.useRef(15)
-</pre>
+````
 Unless the value of *age* is changed, it will remain **15**.
 
 
@@ -98,8 +98,84 @@ The **useReducer** hook return an array of length 2:
 
 
 
+## useContext
+**useContext** make us avoid to pass by every parent to let a children component get a state we want it to use.
+It can be used either by class component but also functions components. 
 
+### Definition
+To define a context, use can do:
+````javascript
+const THEMES = {light: {color: '#000'}, dark: {color: '#FFF'}}
+const ThemeContext = React.createContext(THEMES.light)
+````
+Since our ``ThemeContext`` is defined, we can then define a ThemeContext provider:
 
+````javascript
+function App() {
+  return <ThemeContext.Provider value={THEMES.light}>
+    {...children}
+  </ThemeContext.Provider>
+}
+````
+Our ``App`` component is then a ThemeContext provider and any of its children or children of children can be a consumer at any level.
+
+**Always use a general const variable or a variable get from useRef to provide the value of the context**. Otherwise, it will always be a new value then children consuming the context will always be re-rended.
+
+### Consuming a context
+````javascript
+function AppChild1() {
+  return <ThemeContext.Consumer>
+    {value => {
+      return <span style={value}>Content</span>
+    }}
+  </ThemeContext.Consumer>
+}
+
+function AppChild2() {
+  // Function child can consume as much context as their want this way
+  const theme = React.useContext(ThemeContext)
+  return <span style={value}>Content</span>
+}
+
+class AppChild3 extends React.Component {
+  render() {
+    return <ThemeContext.Consumer>
+      {value => {
+        return <span style={value}>Content</span>
+      }}
+    </ThemeContext.Consumer>
+  }
+}
+
+class AppChild4 extends React.Component {
+  // Class child can't consume more than 1 context this way
+  static contextType = ThemeContext
+  render() {
+    const theme = this.context
+    return <span style={value}>Content</span>
+  }
+}
+````
+
+### Consuming multiple context
+While it's not recommended, we can consume multiple context this way
+````javascript
+function AppChild1() {
+  return <ThemeContext.Consumer>
+    {value => {
+      <UserContext.Consumer>
+        {user => {
+          return <span user={user} style={value}>Content</span>
+        }}
+      <UserContext.Consumer>
+    }}
+  </ThemeContext.Consumer>
+}
+````
+
+### Advanced context usage
+While defining our context, we can provided an object containing the context but also a null callback.
+That way, the context provider can override the callback provided by another one that can be used to change the context.
 
 
 
